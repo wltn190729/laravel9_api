@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,4 +22,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/ping', function () {
     return response()->json(['message' => 'pong']);
 });
+
+Route::get('/posts', [PostController::class, 'index']);
+Route::post('/posts', [PostController::class, 'create']);
+Route::get('/posts/{id}', [PostController::class, 'read']);
+Route::put('/posts/{id}', [PostController::class, 'update']);
+Route::delete('/posts/{id}', [PostController::class, 'delete']);
 
