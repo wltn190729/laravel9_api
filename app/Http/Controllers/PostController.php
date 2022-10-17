@@ -9,25 +9,18 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::orderBy('created_at', 'desc')->get();
+        $posts = Post::orderBy('created_at', 'desc')->with('comments')->get();
         return response()->json($posts);
     }
 
     public function create(Request $request)
     {
-        /*
-        $request->validate([
-            'subject' => 'required',
-            'content' => 'required'
-        ]);
-        **/
-
         $subject = $request->input('subject');
-        $content = $request->input('content');
+        $context = $request->input('context');
 
         $post = new Post();
         $post->subject = $subject;
-        $post->content = $content;
+        $post->context = $context;
         $post->save();
 
         return response()->json($post);
@@ -35,8 +28,13 @@ class PostController extends Controller
 
     public function read($id)
     {
-//        $post = Post::where('id', $id)->first();
-        $post = Post::find($id);
+        $post = Post::where('id', $id)->with('comments')->first();
+//        $post = Post::find($id);
+
+        if (!$post) {
+            return response()->json(['message' => '조회할 데이터가 없습니다.'], 404);
+        }
+
         return response()->json($post);
     }
 
@@ -60,6 +58,11 @@ class PostController extends Controller
     public function delete($id)
     {
         $post = Post::find($id);
+
+        if (!$post) {
+            return response()->json(['message' => '조회할 데이터가 없습니다.'], 404);
+        }
+
         $post->delete();
 
         return response()->json(['message' => '삭제되었습니다.']);
