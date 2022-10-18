@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostRequest;
 use Illuminate\Http\Request;
 use App\Models\Post;
 
@@ -15,13 +16,16 @@ class PostController extends Controller
 
     public function create(Request $request)
     {
-        $subject = $request->input('subject');
-        $context = $request->input('context');
+        $params = $request->only(['subject' , 'context']);
+//        $subject = $request->input('subject');
+//        $context = $request->input('context');
 
-        $post = new Post();
-        $post->subject = $subject;
-        $post->context = $context;
-        $post->save();
+//        $post = new Post();
+//        $post->subject = $subject;
+//        $post->context = $context;
+//        $post->save();
+
+        $post = Post::create($params);
 
         return response()->json($post);
     }
