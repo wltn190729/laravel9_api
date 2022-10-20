@@ -1,1 +1,7 @@
-FROM php:8.1
+FROM nginx:latest
+
+COPY config/nginx.conf /etc/nginx/conf.d/nginx.conf
+
+CMD ["nginx", "-g", "daemon off;"]
+
+EXPOSE 80
