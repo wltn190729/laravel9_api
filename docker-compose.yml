@@ -28,7 +28,7 @@ services:
         image: php:8.1-fpm
         container_name: php
         volumes:
-            - ./Project:/var/www/html
+            - ./:/var/www/html
         ports:
             - "9000:9000"
         command:
