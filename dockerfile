@@ -1,6 +1,8 @@
 FROM nginx:latest
 
 COPY config/nginx.conf /etc/nginx/conf.d/nginx.conf
+COPY composer.json composer.json
+COPY composer.lock composer.lock
 
 RUN composer install \
     --no-interaction \
