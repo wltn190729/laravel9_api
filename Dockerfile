@@ -1,38 +1,14 @@
 FROM php:8.1-fpm
 
-ARG user
-ARG uid
-
-#의존성 설치
-RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
-    zip \
-    unzip
-
-#캐시 클리어
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
-#php 확장 설치
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
-
+RUN apt-get update -y && apt-get install -y openssl zip unzip git
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-##마지막 컴포저 버전
-#COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-RUN useradd -G www-data,root -u $uid -d /home/$user $user
-RUN mkdir -p /home/$user/.composer && \
-    chown -R $user:$user /home/$user
-
-RUN mkdir -p /var/www/html/vendor && \
-    chown -R $user:$user /var/www/html/vendor
-
-CMD php artisan serve --host=0.0.0.0 --port=8080
+RUN docker-php-ext-install pdo pdo_mysql
 
 WORKDIR /var/www/html
 
-USER $user
+COPY . /var/www/html
+
+RUN composer install
+CMD php artisan serve --host=0.0.0.0 --port=8080
+
+EXPOSE 8080
