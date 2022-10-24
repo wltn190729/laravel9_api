@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 #php 확장 설치
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd fileinfo
 
 ##마지막 컴포저 버전
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
