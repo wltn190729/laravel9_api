@@ -7,7 +7,7 @@ services:
                 user: root
                 uid: 501
             context: ./
-            dockerfile: dockerfile
+            dockerfile: Dockerfile
         image: laravel-app
         restart: unless-stopped
         working_dir: /var/www/html
@@ -26,7 +26,7 @@ services:
         networks:
             - mynetwork
 
-    mysql:
+    db:
         image: mariadb:latest
         restart: unless-stopped
         ports:
