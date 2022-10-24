@@ -25,7 +25,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN mkdir -p /home/$user/.composer && \
     chown -R $user:$user /home/$user
 
-CMD bash -c "npm install"
+#CMD bash -c "npm install"
 
 WORKDIR /var/www/html
 
