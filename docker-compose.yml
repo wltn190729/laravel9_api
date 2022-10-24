@@ -1,6 +1,20 @@
 version: '3'
 
 services:
+    app:
+        build:
+            args:
+                user: root
+                uid: 501
+            context: ./
+            dockerfile: Dockerfile
+        image: laravel-app
+        restart: unless-stopped
+        working_dir: /var/www/html
+        volumes:
+            -   ./:/var/www
+        networks:
+            -   mynetwork
     nginx:
         image: nginx:latest
         container_name: nginx
@@ -24,16 +38,6 @@ services:
             MYSQL_PASSWORD: root
             MYSQL_ROOT_PASSWORD: root
 
-    php:
-        image: php:8.1-fpm
-        container_name: php
-        volumes:
-            - ./:/var/www/html
-        ports:
-            - "9000:9000"
-        command:
-            - /bin/sh
-            - -c
-            - |
-                echo "security.limit_extensions = .php .phtml .php3 .php4 .php5 .html .htm" >> /usr/local/etc/php-fpm.d/www.conf
-                php-fpm
+networks:
+    mynetwork:
+        driver: bridge
