@@ -26,7 +26,8 @@ RUN useradd -G www-data,root -u $uid -d /home/$user $user
 RUN mkdir -p /home/$user/.composer && \
     chown -R $user:$user /home/$user
 
-RUN mkdir -p /var/www/html/vendor
+RUN mkdir -p /var/www/html/vendor && \
+    chown -R $user:$user /var/www/html/vendor
 
 WORKDIR /var/www/html
 
