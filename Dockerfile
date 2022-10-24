@@ -19,8 +19,10 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 #php 확장 설치
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
 ##마지막 컴포저 버전
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+#COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 RUN useradd -G www-data,root -u $uid -d /home/$user $user
 RUN mkdir -p /home/$user/.composer && \
