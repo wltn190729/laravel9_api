@@ -7,7 +7,7 @@ services:
                 user: root
                 uid: 501
             context: ./
-            dockerfile: Dockerfile
+            dockerfile: dockerfile
         image: laravel-app
         restart: unless-stopped
         working_dir: /var/www/html
