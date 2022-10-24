@@ -33,6 +33,6 @@ RUN #mkdir -p /var/www/html/vendor && \
 
 WORKDIR /var/www/html
 
-CMD bash -c "composer install && php artisan serve --host 0.0.0.0 --port 8080"
+CMD bash -c "php artisan serve --host 0.0.0.0 --port 8080"
 
 USER $user
