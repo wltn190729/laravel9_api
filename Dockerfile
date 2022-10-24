@@ -29,6 +29,8 @@ RUN mkdir -p /home/$user/.composer && \
 RUN mkdir -p /var/www/html/vendor && \
     chown -R $user:$user /var/www/html/vendor
 
+CMD php artisan serve --host=0.0.0.0 --port=8080
+
 WORKDIR /var/www/html
 
 USER $user
