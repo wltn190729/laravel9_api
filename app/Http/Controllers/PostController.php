@@ -10,13 +10,13 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::orderBy('created_at', 'desc')->with('comments')->get();
+        $posts = Post::orderBy('created_at', 'desc')
+            ->with('comments', 'categories')->get();
         return response()->json($posts);
     }
 
     public function create(Request $request)
     {
-        $params = $request->only(['subject' , 'context']);
 //        $subject = $request->input('subject');
 //        $context = $request->input('context');
 
@@ -25,8 +25,11 @@ class PostController extends Controller
 //        $post->context = $context;
 //        $post->save();
 
+        $params = $request->only(['subject' , 'context']);
         $post = Post::create($params);
-
+        $ids = $request->input('category_ids');
+        //attach, detach, sync
+        $post->categories()->sync($ids);
         return response()->json($post);
     }
 
@@ -52,9 +55,13 @@ class PostController extends Controller
 
         $subject = $request->input('subject', null);
         $content = $request->input('content', null);
+        $ids = $request->input('category_ids');
+
         if ($subject) $post->subject = $subject;
         if ($content) $post->content = $content;
+
         $post->save();
+        $post->categories()->sync($ids);
 
         return response()->json($post);
     }

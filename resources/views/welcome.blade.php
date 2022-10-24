@@ -128,5 +128,7 @@
                 </div>
             </div>
         </div>
+
+    result: {{ dice() }}
     </body>
 </html>
