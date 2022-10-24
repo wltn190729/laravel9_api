@@ -28,11 +28,12 @@ RUN useradd -G www-data,root -u $uid -d /home/$user $user
 #RUN mkdir -p /home/$user/.composer && \
 #    chown -R $user:$user /home/$user
 
-RUN #mkdir -p /var/www/html/vendor && \
-#    chown -R $user:$user /var/www/html/vendor
+RUN mkdir -p /var/www/html/vendor && \
+    chown -R $user:$user /var/www/html/vendor
+RUN chmod 777 /var/www/html
 
 WORKDIR /var/www/html
 
-CMD bash -c "php artisan serve --host 0.0.0.0 --port 8080"
+CMD php artisan serve --host=0.0.0.0 --port=8080
 
 USER $user
