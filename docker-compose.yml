@@ -1,25 +1,30 @@
-version: '3'
+version: '3.7'
+
 services:
     app:
-        build: .
-        ports:
-            - "8080:80"
+        build:
+            args:
+                user: jschoi
+                uid: 501
+            context: ./
+            dockerfile: Dockerfile
+        image: laravel-app
+        restart: unless-stopped
+        working_dir: /var/www/html
         volumes:
             -   ./:/var/www/html
-        env_file: .env
-        working_dir: /var/www/html
-        command: bash -c 'php artisan migrate && php artisan serve --host 0.0.0.0'
-        depends_on:
-            - db
-        links:
-            - db
+        networks:
+            -   mynetwork
     nginx:
         image: nginx:latest
+        restart: unless-stopped
         ports:
             - "8080:80"
         volumes:
             - ./:/var/www/html #프로젝트 경로
             - ./nginx/conf.d:/etc/nginx/conf.d #nginx 설정 파일
+        networks:
+            - mynetwork
         links:
             - app
         depends_on:
@@ -27,13 +32,18 @@ services:
 
     db:
         image: mariadb:latest
+        restart: unless-stopped
+        ports:
+            - "3306:3306"
         environment:
             MYSQL_HOST: localhost
             MYSQL_DATABASE: laravel
             MYSQL_USER: root
             MYSQL_PASSWORD: root
             MYSQL_ROOT_PASSWORD: root
-        volumes:
-            - ./data/:/var/lib/mysql
-        ports:
-            - "3306:3306"
+        networks:
+            - mynetwork
+
+networks:
+    mynetwork:
+        driver: bridge
