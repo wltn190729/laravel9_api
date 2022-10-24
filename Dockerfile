@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libxml2-dev \
     zip \
-    unzip \
+    unzip
 
 #캐시 클리어
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
