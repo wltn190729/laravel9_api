@@ -22,6 +22,9 @@ RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 ##마지막 컴포저 버전
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
+RUN apt-get install -y nodejs
+
 RUN mkdir -p /home/$user/.composer && \
     chown -R $user:$user /home/$user
 
