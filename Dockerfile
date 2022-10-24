@@ -11,7 +11,10 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libxml2-dev \
     zip \
-    unzip
+    unzip \
+
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
+RUN apt-get -qq install nodejs --yes
 
 #캐시 클리어
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
