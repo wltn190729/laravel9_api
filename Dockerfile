@@ -22,13 +22,10 @@ RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 ##마지막 컴포저 버전
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-RUN npm install
-
 RUN mkdir -p /home/$user/.composer && \
     chown -R $user:$user /home/$user
 
-RUN mkdir -p /var/www/html/vendor && \
-    chown -R $user:$user /var/www/html/vendor
+CMD bash -c "npm install"
 
 WORKDIR /var/www/html
 
