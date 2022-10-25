@@ -78,4 +78,18 @@ class PostController extends Controller
 
         return response()->json(['message' => '삭제되었습니다.']);
     }
+
+    public function pagination(Request $request)
+    {
+        $size = $request->input('size') ?? 10;
+        $offset = ($request->input('page') ?? 1) * $size;
+
+        $posts = Post::orderBy('created_at', 'desc')
+            ->with('comments', 'categories')->offset($offset)->limit($size)->get();
+
+        $totalCnt = Post::all()->count();
+
+        return response()->json(['data' => $posts, 'total' => $totalCnt]);
+
+    }
 }

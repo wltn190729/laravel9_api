@@ -26,6 +26,7 @@ Route::get('/ping', function () {
 });
 
 Route::get('/posts', [PostController::class, 'index']);
+Route::get('/posts/pagination', [PostController::class, 'pagination']);
 Route::post('/posts', [PostController::class, 'create']);
 Route::get('/posts/{id}', [PostController::class, 'read']);
 Route::patch('/posts/{id}', [PostController::class, 'update']);
