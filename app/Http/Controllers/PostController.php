@@ -82,7 +82,7 @@ class PostController extends Controller
     public function pagination(Request $request)
     {
         $size = $request->input('size') ?? 10;
-        $offset = ($request->input('page') ?? 1) * $size;
+        $offset = ($request->input('page') ?? 0) * $size;
 
         $posts = Post::orderBy('created_at', 'desc')->offset($offset)->limit($size)->get();
 
