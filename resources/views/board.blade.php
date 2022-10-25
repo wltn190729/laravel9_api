@@ -73,7 +73,7 @@
                 $("table tbody").append(tag);
 
                 let navTag = '';
-                for (let i = 1; i < (result.total / size); i++) {
+                for (let i = 1; i < (result.total / size) + 1; i++) {
                     navTag += '<li class="page-item">';
                     navTag += '<a class="page-link" href="#">'+i+'</a>'
                     navTag += "</li>";
