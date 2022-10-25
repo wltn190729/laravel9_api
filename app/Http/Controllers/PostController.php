@@ -84,8 +84,7 @@ class PostController extends Controller
         $size = $request->input('size') ?? 10;
         $offset = ($request->input('page') ?? 1) * $size;
 
-        $posts = Post::orderBy('created_at', 'desc')
-            ->with('comments', 'categories')->offset($offset)->limit($size)->get();
+        $posts = Post::orderBy('created_at', 'desc')->offset($offset)->limit($size)->get();
 
         $totalCnt = Post::all()->count();
 
